@@ -6,37 +6,66 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    const searchButton=document.getElementById("lookup");
+    const searchCountryButton=document.getElementById("lookup");
+    const searchCityButton=document.getElementById("lookup-city");
+
     const resultDiv=document.getElementById("result");
     const searchField = document.getElementById("country");
-    console.log(searchButton);
-    console.log(searchField);
+    // const citysearchField = document.getElementById("city");
+
+    console.log(searchCountryButton);
+    console.log(searchCityButton);
+
+    // console.log(countrysearchField);
+    // console.log(citysearchField);
+
     
     
     
     
     
-    searchButton.addEventListener("click", function(event) {
+    searchCountryButton.addEventListener("click", function(event) {
         // event.preventDefault(); 
         // Prevent the default form submission  
         resultFunction();
     });
+
+    searchCityButton.addEventListener("click", function(event) {
+        // event.preventDefault(); 
+        // Prevent the default form submission  
+        resultFunction();
+    });
+
+
+
+
     async function resultFunction () {
     
         console.log("resultFunction triggered");
         const searchText = searchField.value;
-        console.log(searchText);    
+        console.log(searchText);
+        console.log(event.target);
+
+        var buttonElement = event.target;
     
-        const url = `http://localhost/info2180-lab5/world.php?country=${sanitize(searchText)}`;
+        // Accessing the button's ID
+        var buttonId = buttonElement.id;
+        
+        console.log("Button ID: " + buttonId);
+    
+    
+        const url = `http://localhost/info2180-lab5/world.php?country=${sanitize(searchText)}&lookup=${buttonId}`;
         console.log("URL:"+ url);
         const response = await fetch(url);
+        console.log(response.json);
+
         const htmlContent = await response.text();
         console.log(htmlContent);
+        
     
     
     
         resultDiv.innerHTML= htmlContent;
-    
         console.log(resultDiv.innerHTML);
     
     }
@@ -71,6 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     
         return input.replace(regex, match => replacements[match]);
+        
     }
     
 
